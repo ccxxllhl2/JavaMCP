@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: mcp-service
+  
+  # 使用 spring-ai-mcp-server-webflux-spring-boot-starter
+  ai:
+    mcp:
+      server:
+        name: agenticrag-mcp-server
+        version: 1.0.0
+        type: ASYNC  # 推荐用于响应式应用
+      client:
+        # 可以根据需要启用或禁用自动配置
+        enabled: true
+    
+    openai:
+      api-key: ${OPENAI_API_KEY:sk-your-api-key}
+      chat:
+        model: gpt-3.5-turbo
+        temperature: 0.7
+
+# MCP服务配置
+mcp:
+  agenticrag:
+    base-url: ${AGENTICRAG_BASE_URL:http://localhost:8888}
+    timeout: 30s
+
+# 服务器配置
+server:
+  port: ${PORT:10080}
+
+# 日志配置
+logging:
+  level:
+    cn.iocoder.boot.mcp: DEBUG
+    org.springframework.ai: DEBUG
+    root: INFO
+  pattern:
+    console: "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+
+# Actuator健康检查
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always 
